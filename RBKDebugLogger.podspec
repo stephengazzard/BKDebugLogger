@@ -17,4 +17,5 @@ Pod::Spec.new do |s|
   s.source_files = 'Classes', '_iOS/Classes/**/*.{h,m}'
   s.framework = 'Foundation'
   s.requires_arc = true  
+  s.dependency 'MagicalRecord'
 end
