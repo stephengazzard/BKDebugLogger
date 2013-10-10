@@ -1,0 +1,12 @@
+platform :ios, '5.1'
+
+pod 'MagicalRecord'
+
+# pod 'AFNetworking'
+# pod 'BlocksKit'
+# pod 'FlurrySDK'	
+# pod 'SDWebImage'
+# pod 'SDNetworkActivityIndicator'
+# pod 'TPKeyboardAvoiding'
+# pod 'BOSImageResizeOperation', :git => 'git://github.com/BucketOSoftware/BOSImageResizeOperation.git'
+# pod 'KIF'

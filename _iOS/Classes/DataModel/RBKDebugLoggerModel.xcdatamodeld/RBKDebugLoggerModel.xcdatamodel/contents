@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3396" systemVersion="12F45" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="RBKDebugSession" representedClassName="RBKDebugSession" syncable="YES">
+        <attribute name="endDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="startDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <relationship name="logs" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="RBKLogMessage" inverseName="session" inverseEntity="RBKLogMessage" syncable="YES"/>
+    </entity>
+    <entity name="RBKLogMessage" representedClassName="RBKLogMessage" syncable="YES">
+        <attribute name="category" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="level" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="message" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="timestamp" optional="YES" attributeType="Date" syncable="YES"/>
+        <relationship name="session" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RBKDebugSession" inverseName="logs" inverseEntity="RBKDebugSession" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="RBKLogMessage" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="RBKDebugSession" positionX="0" positionY="0" width="0" height="0"/>
+    </elements>
+</model>
