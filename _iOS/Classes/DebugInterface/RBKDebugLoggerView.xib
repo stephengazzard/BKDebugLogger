@@ -10,6 +10,7 @@
                 <outlet property="levelsTableView" destination="XLF-Gn-2lo" id="RpQ-hX-GBQ"/>
                 <outlet property="logsTableView" destination="0Ga-Ez-hIh" id="ALx-kj-BfK"/>
                 <outlet property="sessionsTableView" destination="KO8-i0-Cju" id="GbG-2M-nUb"/>
+                <outlet property="view" destination="1" id="u3l-Zm-7lR"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
