@@ -23,6 +23,10 @@
 /* Begin PBXBuildFile section */
 		AD86502DC1B0409D9CD06579 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A568D938734C17B7F0ACDA /* libPods.a */; };
 		BC724FFD181AD14D00F0FA24 /* RBKDebugLoggerModel.xcdatamodeld in Resources */ = {isa = PBXBuildFile; fileRef = BCDA4EB818074229000E1981 /* RBKDebugLoggerModel.xcdatamodeld */; };
+		BC725011181AE6B200F0FA24 /* RBKDebugLoggerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC725010181AE6B200F0FA24 /* RBKDebugLoggerViewController.m */; };
+		BC725014181AE6C900F0FA24 /* RBKDebugLogCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BC725013181AE6C900F0FA24 /* RBKDebugLogCell.m */; };
+		BC725016181AE6D800F0FA24 /* RBKDebugLoggerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC725015181AE6D800F0FA24 /* RBKDebugLoggerView.xib */; };
+		BC725018181AE6E200F0FA24 /* RBKDebugLogCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC725017181AE6E200F0FA24 /* RBKDebugLogCell.xib */; };
 		BCDA4E8818073BBC000E1981 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCDA4E8718073BBC000E1981 /* Foundation.framework */; };
 		BCDA4E9618073BBC000E1981 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCDA4E9518073BBC000E1981 /* XCTest.framework */; };
 		BCDA4E9718073BBC000E1981 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCDA4E8718073BBC000E1981 /* Foundation.framework */; };
@@ -50,6 +54,12 @@
 /* Begin PBXFileReference section */
 		65A568D938734C17B7F0ACDA /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5FAD291C60741118F863E46 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		BC72500F181AE6B200F0FA24 /* RBKDebugLoggerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBKDebugLoggerViewController.h; sourceTree = "<group>"; };
+		BC725010181AE6B200F0FA24 /* RBKDebugLoggerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBKDebugLoggerViewController.m; sourceTree = "<group>"; };
+		BC725012181AE6C900F0FA24 /* RBKDebugLogCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBKDebugLogCell.h; sourceTree = "<group>"; };
+		BC725013181AE6C900F0FA24 /* RBKDebugLogCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBKDebugLogCell.m; sourceTree = "<group>"; };
+		BC725015181AE6D800F0FA24 /* RBKDebugLoggerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RBKDebugLoggerView.xib; sourceTree = "<group>"; };
+		BC725017181AE6E200F0FA24 /* RBKDebugLogCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RBKDebugLogCell.xib; sourceTree = "<group>"; };
 		BCDA4E8418073BBC000E1981 /* libRBKDebugLogger.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRBKDebugLogger.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCDA4E8718073BBC000E1981 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		BCDA4E9418073BBC000E1981 /* RBKDebugLoggerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RBKDebugLoggerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -96,6 +106,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BC72500E181AE68F00F0FA24 /* DebugInterface */ = {
+			isa = PBXGroup;
+			children = (
+				BC72500F181AE6B200F0FA24 /* RBKDebugLoggerViewController.h */,
+				BC725010181AE6B200F0FA24 /* RBKDebugLoggerViewController.m */,
+				BC725012181AE6C900F0FA24 /* RBKDebugLogCell.h */,
+				BC725013181AE6C900F0FA24 /* RBKDebugLogCell.m */,
+				BC725015181AE6D800F0FA24 /* RBKDebugLoggerView.xib */,
+				BC725017181AE6E200F0FA24 /* RBKDebugLogCell.xib */,
+			);
+			path = DebugInterface;
+			sourceTree = "<group>";
+		};
 		BCDA4E7B18073BBC000E1981 = {
 			isa = PBXGroup;
 			children = (
@@ -149,6 +172,7 @@
 			isa = PBXGroup;
 			children = (
 				BCDA4ECD18074802000E1981 /* RBKDebugLogger-Prefix.pch */,
+				BC72500E181AE68F00F0FA24 /* DebugInterface */,
 				BCDA4EB718074229000E1981 /* DataModel */,
 				BCDA4EBA18074229000E1981 /* RBKDebugLogger */,
 			);
@@ -253,6 +277,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC725018181AE6E200F0FA24 /* RBKDebugLogCell.xib in Resources */,
+				BC725016181AE6D800F0FA24 /* RBKDebugLoggerView.xib in Resources */,
 				BC724FFD181AD14D00F0FA24 /* RBKDebugLoggerModel.xcdatamodeld in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -318,10 +344,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC725014181AE6C900F0FA24 /* RBKDebugLogCell.m in Sources */,
 				BCDA4ECB18074306000E1981 /* RBKLogMessage.m in Sources */,
 				BCDA4EC918074306000E1981 /* _RBKLogMessage.m in Sources */,
 				BCDA4ECA18074306000E1981 /* RBKDebugSession.m in Sources */,
 				BCDA4EBF18074229000E1981 /* RBKDebugLogger.m in Sources */,
+				BC725011181AE6B200F0FA24 /* RBKDebugLoggerViewController.m in Sources */,
 				BCDA4EC818074306000E1981 /* _RBKDebugSession.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
