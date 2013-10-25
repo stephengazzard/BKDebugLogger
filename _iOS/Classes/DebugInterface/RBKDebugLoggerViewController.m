@@ -16,9 +16,9 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *logsTableView, *categoriesTableView, *sessionsTableView, *levelsTableView;
 
-@property (strong, nonatomic) NSSet *categories;
-@property (strong, nonatomic) NSArray *logs, *sessions, *levels;
-@property (strong, nonatomic) NSSet *selectedSessions, *ignoredCategories, *ignoredLevels;
+@property (strong, nonatomic) NSMutableSet *allCategories, *allLevels;
+@property (strong, nonatomic) NSArray *logs, *sessions, *sortedCategories, *sortedLevels;
+@property (strong, nonatomic) NSMutableSet *selectedSessions, *ignoredCategories, *ignoredLevels;
 
 @end
 
@@ -29,6 +29,11 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        _allCategories = [NSMutableSet set];
+        _allLevels = [NSMutableSet set];
+        _selectedSessions = [NSMutableSet set];
+        _ignoredCategories = [NSMutableSet set];
+        _ignoredLevels = [NSMutableSet set];
     }
     return self;
 }
@@ -51,14 +56,29 @@
 - (void)loadSessions {
     self.sessions = [RBKDebugSession MR_findAllSortedBy:@"startDate" ascending:NO];
     [self.sessionsTableView reloadData];
+    [self.selectedSessions addObject:[self.sessions lastObject]];
 }
 
 - (void)reloadLogs {
-    self.logs = [RBKLogMessage MR_findAllSortedBy:@"timestamp" ascending:NO];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"!(%K in %@) && !(%K in %@) && (%K in %@)",
+                              @"category", self.ignoredCategories,
+                              @"level", self.ignoredLevels,
+                              @"session", self.selectedSessions];
+    self.logs = [RBKLogMessage MR_findAllSortedBy:@"timestamp" ascending:NO withPredicate:predicate];
+    
+    for(RBKLogMessage *logMessage in self.logs) {
+        if(logMessage.category.length) {
+            [self.allCategories addObject:logMessage.category];
+        }
+        [_allLevels addObject:logMessage.level];
+    }
+    self.sortedCategories = [self.allCategories.allObjects sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+    self.sortedLevels = [self.allLevels.allObjects sortedArrayUsingSelector:@selector(compare:)];
     [self.logsTableView reloadData];
+    [self.categoriesTableView reloadData];
 }
 
-#pragma mark - Events 
+#pragma mark - Events
 
 - (IBAction)close:(id)sender {
     if(self.delegate && [self.delegate respondsToSelector:@selector(debugLoggerViewControllerDidTapClose:)]) {
@@ -72,9 +92,13 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if(tableView == self.sessionsTableView) {
-        return self.sessions.count;
+        return [self.sessions count];
     } else if(tableView == self.logsTableView) {
-        return self.logs.count;
+        return [self.logs count];
+    } else if(tableView == self.categoriesTableView) {
+        return [self.sortedCategories count];
+    } else if(tableView == self.levelsTableView) {
+        return [self.sortedLevels count];
     }
     return 0;
 }
@@ -88,15 +112,38 @@
     
     if(tableView == self.sessionsTableView) {
         RBKDebugSession *session = self.sessions[indexPath.row];
-        cell.textLabel.text = [NSString stringWithFormat:@"%@ - %@", session.startDate, session.endDate ? session.endDate : @"(in progress or crashed)"];
-    }
-    
-    if(tableView == self.logsTableView) {
+        cell.textLabel.text = [NSString stringWithFormat:@"%@ - %@", session.startDate, session.endDate ? session.endDate : @""];
+        cell.accessoryType = ([self.selectedSessions containsObject:session] ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone);
+    } else if(tableView == self.logsTableView) {
         RBKLogMessage *log = self.logs[indexPath.row];
         cell.textLabel.text = log.message;
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    } else if(tableView == self.categoriesTableView) {
+        NSString *category = self.sortedCategories[indexPath.row];
+        cell.textLabel.text = category;
+        cell.accessoryType = ([self.ignoredCategories containsObject:category] ? UITableViewCellAccessoryNone : UITableViewCellAccessoryCheckmark);
+    } else if(tableView == self.levelsTableView) {
+        NSNumber *level = self.sortedLevels[indexPath.row];
+        cell.textLabel.text = [NSString stringWithFormat:@"%@", level];
+        cell.accessoryType = ([self.ignoredLevels containsObject:level] ? UITableViewCellAccessoryNone : UITableViewCellAccessoryCheckmark);
     }
-
+    
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if(tableView == self.sessionsTableView) {
+        RBKDebugSession *session = self.sessions[indexPath.row];
+        [self.selectedSessions containsObject:session] ? [self.selectedSessions removeObject:session] : [self.selectedSessions addObject:session];
+    } else if(tableView == self.categoriesTableView) {
+        NSString *category = self.sortedCategories[indexPath.row];
+        [self.ignoredCategories containsObject:category] ? [self.ignoredCategories removeObject:category] : [self.ignoredCategories addObject:category];
+    } else if(tableView == self.levelsTableView) {
+        NSNumber *level = self.sortedLevels[indexPath.row];
+        [self.ignoredLevels containsObject:level] ? [self.ignoredLevels removeObject:level] : [self.ignoredLevels addObject:level];
+    }
+    [self reloadLogs];
+    [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 @end

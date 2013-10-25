@@ -14,10 +14,10 @@
 @implementation RBKDebugLogger
 
 #define FORMAT_MESSAGE(message) {\
-    va_list args; \
-    va_start(args, message); \
-    message = [[NSString alloc] initWithFormat:message arguments:args]; \
-    va_end(args); \
+va_list args; \
+va_start(args, message); \
+message = [[NSString alloc] initWithFormat:message arguments:args]; \
+va_end(args); \
 }
 
 #pragma mark - Initialisation / Teardown
@@ -91,10 +91,15 @@ RBKDebugLogger *sharedDebugLogger = nil;
 - (void)logInternal:(NSString*)formattedMessage category:(NSString*)category level:(NSUInteger)level {
     RBKLogMessage *log = [RBKLogMessage MR_createEntity];
     log.message = formattedMessage;
-    log.category = category;
+    log.category = category ? category : @"(Default)";
     log.levelValue = level;
     log.timestamp = [NSDate date];
-    [log.managedObjectContext save:nil];
+    log.session = self.currentSession;
+    NSError *error;
+    [log.managedObjectContext save:&error];
+    if(error) {
+        NSLog(@"Error saving MOC: %@", error);
+    }
     
     if(level >= self.logPrintLevel) {
         NSLog(@"%@ (%lu): %@", category, (unsigned long)level, formattedMessage);
