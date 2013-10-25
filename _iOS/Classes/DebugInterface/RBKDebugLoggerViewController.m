@@ -8,6 +8,7 @@
 
 #import "RBKDebugLoggerViewController.h"
 #import "RBKDebugSession.h"
+#import "RBKLogMessage.h"
 #import <NSManagedObject+MagicalRecord.h>
 #import <NSManagedObject+MagicalFinders.h>
 
@@ -48,11 +49,13 @@
 
 
 - (void)loadSessions {
-    self.sessions = [RBKDebugSession MR_findAllSortedBy:@"startDate" ascending:YES];
+    self.sessions = [RBKDebugSession MR_findAllSortedBy:@"startDate" ascending:NO];
     [self.sessionsTableView reloadData];
 }
 
 - (void)reloadLogs {
+    self.logs = [RBKLogMessage MR_findAllSortedBy:@"timestamp" ascending:NO];
+    [self.logsTableView reloadData];
 }
 
 #pragma mark - Events 
@@ -70,6 +73,8 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if(tableView == self.sessionsTableView) {
         return self.sessions.count;
+    } else if(tableView == self.logsTableView) {
+        return self.logs.count;
     }
     return 0;
 }
@@ -84,6 +89,11 @@
     if(tableView == self.sessionsTableView) {
         RBKDebugSession *session = self.sessions[indexPath.row];
         cell.textLabel.text = [NSString stringWithFormat:@"%@ - %@", session.startDate, session.endDate ? session.endDate : @"(in progress or crashed)"];
+    }
+    
+    if(tableView == self.logsTableView) {
+        RBKLogMessage *log = self.logs[indexPath.row];
+        cell.textLabel.text = log.message;
     }
 
     return cell;
