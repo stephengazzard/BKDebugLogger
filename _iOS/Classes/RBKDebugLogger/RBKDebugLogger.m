@@ -39,6 +39,7 @@ RBKDebugLogger *sharedDebugLogger = nil;
 
 - (void)setupMagicalRecord {
     NSString *store = [MagicalRecord defaultStoreName];
+    NSLog(@"Default store: %@", store);
     [MagicalRecord setupCoreDataStackWithAutoMigratingSqliteStoreNamed:store];
     if (![NSPersistentStore MR_defaultPersistentStore]) { // For now just delete databse on conflicts
         [MagicalRecord cleanUp];
@@ -59,18 +60,6 @@ RBKDebugLogger *sharedDebugLogger = nil;
 }
 
 #pragma mark - Logging
-
-- (void)logMessage:(NSString *)message {
-    [self logMessage:message category:nil level:RBKDebugLevelMessage];
-}
-
-- (void)logMessage:(NSString *)message category:(NSString *)category {
-    [self logMessage:message category:category level:RBKDebugLevelMessage];
-}
-
-- (void)logMessage:(NSString *)message level:(NSUInteger)level {
-    [self logMessage:message category:nil level:level];
-}
 
 - (void)logMessage:(NSString *)message category:(NSString *)category level:(NSUInteger)level {
     RBKLogMessage *log = [RBKLogMessage MR_createEntity];
