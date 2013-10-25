@@ -25,85 +25,17 @@ typedef NS_ENUM(NSUInteger, RBKDebugLevel) {
     RBKDebugLevelCritical
 };
 
-/**
- *  Convenience macro allows C-Style debugging.
- *  By default requires a category and a level.
- *  To log without requiring a category or a
- *  level, use RBKDebugLogSimple.
- *  To log without requiring a level but with
- *  a category, use RBKDebugLogCategory.
- *  To log without requiring a category but with
- *  a level, use RBKDebugLogLevel.
- *  Note that it is highly recommended that you
- *  provide a category to all debug messages.
- *  Equivalent to calling 
- *  [[RBKDebugLogger sharedDebugLogger]
- *      logMessage:<message> category:<category> level:<level>];
- */
-#define RBKDebugLog(message, category, level) [[RBKDebugLogger sharedDebugLogger] logMessage:message category:category level:level]
+#define RBKDebugLog(_message, _category, _level) [[RBKDebugLogger sharedDebugLogger] logMessage:_message category:_category level:_level]
 
-/**
- *  Convenience macro allows C-Style debugging.
- *  Will default to a debug level of 0.
- *  Equivalent to calling 
- *  [[RBKDebugLogger sharedDebugLogger]
- *      logMessage:<message> category:<category>];
- */
-#define RBKDebugLogCategory(message, category) [[RBKDebugLogger sharedDebugLogger] logMessage:message category:category level:RBKDebugLevelMessage]
 
-/**
- *  Convenience macro allows C-Style debugging.
- *  Will default to nil category.
- *  Equivalent to calling
- *  [[RBKDebugLogger sharedDebugLogger]
- *      logMessage:<message> level:<level>];
- */
-#define RBKDebugLogLevel(message, level) [[RBKDebugLogger sharedDebugLogger] logMessage:message category:nil level:level]
-
-/**
- *  Convenience macro allows C-Style debugging.
- *  Defaults to no category and 0 (neutral) level.
- *  Equivalent to calling
- *  [[RBKDebugLogger sharedDebugLogger]
- *      logMessage:<message>];
- */
-#define RBKDebugLogSimple(message) [[RBKDebugLogger sharedDebugLogger] logMessage:message category:nil level:RBKDebugLevelMessage]
 
 @interface RBKDebugLogger : NSObject
 
 + (RBKDebugLogger*)sharedDebugLogger;
 
-/**
- *  The current session.
- *  Each log will store a reference to the
- *  session where it was logged.
- */
 @property (strong, nonatomic) RBKDebugSession *currentSession;
+@property (assign, nonatomic) NSInteger logPrintLevel;
 
-/**
- *  Logs a message with no category or level
- *  specified. Defaults to nil category and
- *  0 level message.
- */
-- (void)logMessage:(NSString*)message;
-
-/**
- *  Logs a message with no level specified.
- *  Defaults to 0 level.
- */
-- (void)logMessage:(NSString*)message category:(NSString*)category;
-
-/*
- *  Logs a message with no category specified.
- *  It is recommended you always use a cateogory
- *  if able!
- *  Category will default to nil.
- */
-- (void)logMessage:(NSString*)message level:(NSUInteger)level;
-
-/*
- *  Logs a message with a category and level.
- */
 - (void)logMessage:(NSString*)message category:(NSString*)category level:(NSUInteger)level;
 
 @end

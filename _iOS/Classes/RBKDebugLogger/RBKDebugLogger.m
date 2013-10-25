@@ -79,6 +79,10 @@ RBKDebugLogger *sharedDebugLogger = nil;
     log.levelValue = level;
     log.timestamp = [NSDate date];
     [log.managedObjectContext save:nil];
+    
+    if(level >= self.logPrintLevel) {
+        NSLog(@"%@ (%lu): %@", category, (unsigned long)level, message);
+    }
 }
 
 @end
