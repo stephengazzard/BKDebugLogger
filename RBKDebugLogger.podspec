@@ -17,9 +17,13 @@ Pod::Spec.new do |s|
   s.source_files = 'Classes', '_iOS/Classes/**/*.{h,m}'
   s.framework = 'Foundation'
   s.requires_arc = true  
-  s.dependency 'MagicalRecord', '~> 2.2'
+#  s.dependency 'MagicalRecord', '~> 2.2'
+  
+  s.subspec 'DataModel' do |uab|
+    uab.dependency 'MagicalRecord', '~> 2.2'
+    uab.preserve_paths = '_iOS/Classes/DataModel/RBKDebugLoggerModel.xcdatamodeld'
 
-  def uab.post_install(target_installer)
+    def uab.post_install(target_installer)
       momd_relative = '_iOS/Classes/DataModel/RBKDebugLoggerModel.momd'
       momd_full = config.project_pods_root + momd_relative
       unless momd_full.exist?
@@ -31,9 +35,10 @@ Pod::Spec.new do |s|
           raise ::Pod::Informative, "Core Data model"
         end
       end
- 
+ 	
       File.open(File.join(config.project_pods_root, target_installer.target_definition.copy_resources_script_name), 'a') do |file|
         file.puts "install_resource '#{momd_relative}'"
       end
     end
+  end
 end
