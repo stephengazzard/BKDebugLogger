@@ -62,7 +62,12 @@ RBKDebugLogger *sharedDebugLogger = nil;
 #pragma mark - Logging
 
 - (void)logWithCategory:(NSString *)category level:(NSUInteger)level message:(NSString *)message, ... {
-    NSLog(@"Message: %@", message);
+    va_list args;
+    va_start(args, message);
+    NSString *formattedMessage = [[NSString alloc] initWithFormat:message arguments:args];
+    va_end(args);
+    
+    NSLog(@"Message: %@", formattedMessage);
 }
 
 - (void)logMessage:(NSString *)message category:(NSString *)category level:(NSUInteger)level {
