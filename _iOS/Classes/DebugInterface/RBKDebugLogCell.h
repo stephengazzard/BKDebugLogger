@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RBKLogMessage.h"
 
 @interface RBKDebugLogCell : UITableViewCell
+
+- (void)updateWithLog:(RBKLogMessage*)log;
 
 @end

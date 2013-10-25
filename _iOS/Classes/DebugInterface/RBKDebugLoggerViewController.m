@@ -11,6 +11,7 @@
 #import "RBKLogMessage.h"
 #import <NSManagedObject+MagicalRecord.h>
 #import <NSManagedObject+MagicalFinders.h>
+#import "RBKDebugLogCell.h"
 
 @interface RBKDebugLoggerViewController ()
 
@@ -41,6 +42,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    NSString *debugLogCell = NSStringFromClass([RBKDebugLogCell class]);
+    UINib *nib = [UINib nibWithNibName:debugLogCell bundle:nil];
+    [self.logsTableView registerNib:nib forCellReuseIdentifier:debugLogCell];
+    
     [self loadSessions];
     [self reloadLogs];
 	// Do any additional setup after loading the view.
@@ -104,6 +110,13 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if(self.logsTableView == tableView) {
+        RBKDebugLogCell *debugCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([RBKDebugLogCell class])];
+        [debugCell updateWithLog:self.logs[indexPath.row]];
+        return debugCell;
+    }
+    
     static NSString *reuseIdentifier = @"StandardCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
     if(!cell) {
@@ -114,10 +127,6 @@
         RBKDebugSession *session = self.sessions[indexPath.row];
         cell.textLabel.text = [NSString stringWithFormat:@"%@ - %@", session.startDate, session.endDate ? session.endDate : @""];
         cell.accessoryType = ([self.selectedSessions containsObject:session] ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone);
-    } else if(tableView == self.logsTableView) {
-        RBKLogMessage *log = self.logs[indexPath.row];
-        cell.textLabel.text = log.message;
-        cell.accessoryType = UITableViewCellAccessoryNone;
     } else if(tableView == self.categoriesTableView) {
         NSString *category = self.sortedCategories[indexPath.row];
         cell.textLabel.text = category;
@@ -144,6 +153,14 @@
     }
     [self reloadLogs];
     [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if(tableView == self.logsTableView) {
+        return 90;
+    } else {
+        return 44;
+    }
 }
 
 @end

@@ -8,22 +8,20 @@
 
 #import "RBKDebugLogCell.h"
 
+@interface RBKDebugLogCell()
+
+@property (weak, nonatomic) IBOutlet UILabel *categoryLabel, *levelLabel, *dateLabel;
+@property (weak, nonatomic) IBOutlet UITextView *messageTextView;
+
+@end
+
 @implementation RBKDebugLogCell
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
-        // Initialization code
-    }
-    return self;
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
+- (void)updateWithLog:(RBKLogMessage*)log {
+    self.categoryLabel.text = log.category;
+    self.levelLabel.text = [NSString stringWithFormat:@"%@", log.level];
+    self.dateLabel.text = [NSString stringWithFormat:@"%@", log.timestamp];
+    self.messageTextView.text = log.message;
 }
 
 @end
