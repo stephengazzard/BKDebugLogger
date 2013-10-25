@@ -25,9 +25,7 @@ typedef NS_ENUM(NSUInteger, RBKDebugLevel) {
     RBKDebugLevelCritical
 };
 
-#define RBKDebugLog(_message, _category, _level) [[RBKDebugLogger sharedDebugLogger] logMessage:_message category:_category level:_level]
-
-
+#define RBKDebugLog(_category, _level, _message, ...) [[RBKDebugLogger sharedDebugLogger] logCategory:_category level:_level message:_message, ##__VA_ARGS__]
 
 @interface RBKDebugLogger : NSObject
 
