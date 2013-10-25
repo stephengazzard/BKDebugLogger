@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/stephengazzard/BKDebugLogger.git" }
   s.platform     = :ios
   s.source_files = 'Classes', '_iOS/Classes/**/*.{h,m}'
-  s.resources = 'Resources', '_iOS/Classes/**/*.{xcdatamodeld}'
+  s.resources = 'Resources', '_iOS/Classes/**/*.{xcdatamodeld,xib}'
   s.framework = 'Foundation'
   s.requires_arc = true  
   s.dependency 'MagicalRecord', '~> 2.2'
