@@ -61,6 +61,10 @@ RBKDebugLogger *sharedDebugLogger = nil;
 
 #pragma mark - Logging
 
+- (void)logWithCategory:(NSString *)category level:(NSUInteger)level message:(NSString *)message, ... {
+    NSLog(@"Message: %@", message);
+}
+
 - (void)logMessage:(NSString *)message category:(NSString *)category level:(NSUInteger)level {
     RBKLogMessage *log = [RBKLogMessage MR_createEntity];
     log.message = message;

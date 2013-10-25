@@ -34,8 +34,9 @@ typedef NS_ENUM(NSUInteger, RBKDebugLevel) {
 + (RBKDebugLogger*)sharedDebugLogger;
 
 @property (strong, nonatomic) RBKDebugSession *currentSession;
-@property (assign, nonatomic) NSInteger logPrintLevel;
+@property (assign, nonatomic) NSUInteger logPrintLevel;
 
+- (void)logWithCategory:(NSString*)category level:(NSUInteger)level message:(NSString*)message, ... NS_FORMAT_FUNCTION(3,4);
 - (void)logMessage:(NSString*)message category:(NSString*)category level:(NSUInteger)level;
 
 @end
