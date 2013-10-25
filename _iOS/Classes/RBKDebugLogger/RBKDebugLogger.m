@@ -13,6 +13,13 @@
 
 @implementation RBKDebugLogger
 
+#define FORMAT_MESSAGE(message) {\
+    va_list args; \
+    va_start(args, message); \
+    message = [[NSString alloc] initWithFormat:message arguments:args]; \
+    va_end(args); \
+}
+
 #pragma mark - Initialisation / Teardown
 
 RBKDebugLogger *sharedDebugLogger = nil;
@@ -61,25 +68,36 @@ RBKDebugLogger *sharedDebugLogger = nil;
 
 #pragma mark - Logging
 
-- (void)logWithCategory:(NSString *)category level:(NSUInteger)level message:(NSString *)message, ... {
-    va_list args;
-    va_start(args, message);
-    NSString *formattedMessage = [[NSString alloc] initWithFormat:message arguments:args];
-    va_end(args);
-    
-    NSLog(@"Message: %@", formattedMessage);
+- (void)logMessage:(NSString*)message, ... {
+    FORMAT_MESSAGE(message);
+    [self logInternal:message category:nil level:RBKDebugLevelMessage];
 }
 
-- (void)logMessage:(NSString *)message category:(NSString *)category level:(NSUInteger)level {
+- (void)logLevel:(NSUInteger)level message:(NSString*)message, ...  {
+    FORMAT_MESSAGE(message);
+    [self logInternal:message category:nil level:level];
+}
+
+- (void)logCategory:(NSString*)category message:(NSString*)message, ... {
+    FORMAT_MESSAGE(message);
+    [self logInternal:message category:category level:RBKDebugLevelMessage];
+}
+
+- (void)logCategory:(NSString *)category level:(NSUInteger)level message:(NSString *)message, ... {
+    FORMAT_MESSAGE(message);
+    [self logInternal:message category:category level:level];
+}
+
+- (void)logInternal:(NSString*)formattedMessage category:(NSString*)category level:(NSUInteger)level {
     RBKLogMessage *log = [RBKLogMessage MR_createEntity];
-    log.message = message;
+    log.message = formattedMessage;
     log.category = category;
     log.levelValue = level;
     log.timestamp = [NSDate date];
     [log.managedObjectContext save:nil];
     
     if(level >= self.logPrintLevel) {
-        NSLog(@"%@ (%lu): %@", category, (unsigned long)level, message);
+        NSLog(@"%@ (%lu): %@", category, (unsigned long)level, formattedMessage);
     }
 }
 
