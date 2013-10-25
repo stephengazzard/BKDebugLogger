@@ -22,7 +22,6 @@
 
 /* Begin PBXBuildFile section */
 		AD86502DC1B0409D9CD06579 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A568D938734C17B7F0ACDA /* libPods.a */; };
-		BC724FFB181AC20500F0FA24 /* RBKDebugLoggerModel.xcdatamodeld in Resources */ = {isa = PBXBuildFile; fileRef = BCDA4EB818074229000E1981 /* RBKDebugLoggerModel.xcdatamodeld */; };
 		BCDA4E8818073BBC000E1981 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCDA4E8718073BBC000E1981 /* Foundation.framework */; };
 		BCDA4E9618073BBC000E1981 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCDA4E9518073BBC000E1981 /* XCTest.framework */; };
 		BCDA4E9718073BBC000E1981 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCDA4E8718073BBC000E1981 /* Foundation.framework */; };
@@ -202,7 +201,6 @@
 			buildPhases = (
 				31B080846A3E436FB6DF1CAA /* Check Pods Manifest.lock */,
 				BCDA4E8018073BBC000E1981 /* Sources */,
-				BC724FFA181AC1FC00F0FA24 /* Resources */,
 				BCDA4E8118073BBC000E1981 /* Frameworks */,
 				BCDA4E8218073BBC000E1981 /* CopyFiles */,
 				E27CCA108D8D417AB4847E9E /* Copy Pods Resources */,
@@ -263,14 +261,6 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		BC724FFA181AC1FC00F0FA24 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				BC724FFB181AC20500F0FA24 /* RBKDebugLoggerModel.xcdatamodeld in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		BCDA4E9218073BBC000E1981 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;

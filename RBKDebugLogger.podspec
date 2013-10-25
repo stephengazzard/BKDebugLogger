@@ -18,4 +18,22 @@ Pod::Spec.new do |s|
   s.framework = 'Foundation'
   s.requires_arc = true  
   s.dependency 'MagicalRecord', '~> 2.2'
+
+  def uab.post_install(target_installer)
+      momd_relative = '_iOS/Classes/DataModel/RBKDebugLoggerModel.momd'
+      momd_full = config.project_pods_root + momd_relative
+      unless momd_full.exist?
+        puts "\nCompiling Core Data model\n".yellow if config.verbose?
+        model = config.project_pods_root + '_iOS/Classes/DataModel/RBKDebugLoggerModel.xcdatamodeld'
+        command = "xcrun momc '#{model}' '#{momd_full}'"
+        command << " 2>&1 > /dev/null" unless config.verbose?
+        unless system(command)
+          raise ::Pod::Informative, "Core Data model"
+        end
+      end
+ 
+      File.open(File.join(config.project_pods_root, target_installer.target_definition.copy_resources_script_name), 'a') do |file|
+        file.puts "install_resource '#{momd_relative}'"
+      end
+    end
 end
