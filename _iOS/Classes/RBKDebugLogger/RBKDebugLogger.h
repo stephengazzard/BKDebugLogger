@@ -27,6 +27,10 @@ typedef NS_ENUM(NSUInteger, RBKDebugLevel) {
 
 #define RBKDebugLog(_category, _level, _message, ...) [[RBKDebugLogger sharedDebugLogger] logCategory:_category level:_level message:_message, ##__VA_ARGS__]
 
+#define RBKDebugLogSimple(_message, ...) [[RBKDebugLogger sharedDebugLogger] logMessage:_message, ##__VA_ARGS__]
+#define RBKDebugLogCategory(_category, _message, ...) [[RBKDebugLogger sharedDebugLogger] logCategory:_category message:_message, ##__VA_ARGS__]
+#define RBKDebugLogLevel(_level, _message, ...) [[RBKDebugLogger sharedDebugLogger] logLevel:_level message:_message, ##__VA_ARGS__]
+
 @interface RBKDebugLogger : NSObject
 
 + (RBKDebugLogger*)sharedDebugLogger;
