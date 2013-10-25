@@ -46,13 +46,23 @@
     // Dispose of any resources that can be recreated.
 }
 
+
 - (void)loadSessions {
     self.sessions = [RBKDebugSession MR_findAllSortedBy:@"startDate" ascending:YES];
     [self.sessionsTableView reloadData];
 }
 
 - (void)reloadLogs {
-    
+}
+
+#pragma mark - Events 
+
+- (IBAction)close:(id)sender {
+    if(self.delegate && [self.delegate respondsToSelector:@selector(debugLoggerViewControllerDidTapClose:)]) {
+        [self.delegate debugLoggerViewControllerDidTapClose:self];
+    } else {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 #pragma mark - UITableViewDelegate/UITableViewDataSource implementations
