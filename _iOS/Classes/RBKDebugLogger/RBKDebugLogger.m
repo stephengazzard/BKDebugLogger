@@ -9,6 +9,7 @@
 #import "RBKDebugLogger.h"
 #import <MagicalRecord/MagicalRecord+Setup.h>
 #import <MagicalRecord/MagicalRecord.h>
+#import <CoreData+MagicalRecord.h>
 
 @implementation RBKDebugLogger
 
